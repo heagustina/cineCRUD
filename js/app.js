@@ -160,3 +160,95 @@ window.prepararPelicula = (id) => {
     }
   };
   //FIN
+
+//VER PELICULA
+window.verPelicula = (id) => {
+    console.log(window.location);
+    window.location.href = "./pages/detallePelicula.html?cod=" + id;
+  };
+  //FIN 
+
+  // funciones de validacion
+function validarCantidadCaracteres(input, min, max) {
+    if (input.value.trim().length >= min && input.value.trim().length <= max) {
+      input.classList.add("is-valid");
+      input.classList.remove("is-invalid");
+      return true;
+    } else {
+      input.classList.add("is-invalid");
+      input.classList.remove("is-valid");
+      return false;
+    }
+  }
+  
+  function validarDuracion(input) {
+    const duracion = parseInt(input.value.trim());
+    if (!isNaN(duracion) && duracion >= 10 && duracion <= 500) {
+      input.classList.add("is-valid");
+      input.classList.remove("is-invalid");
+      return true;
+    } else {
+      input.classList.add("is-invalid");
+      input.classList.remove("is-valid");
+      return false;
+    }
+  }
+  
+  function validarImagen() {
+    const regExp = /^https?:\/\/.*\.(jpg|jpeg|png)$/i;
+    if (regExp.test(inputImagen.value.trim())) {
+      inputImagen.classList.add("is-valid");
+      inputImagen.classList.remove("is-invalid");
+      return true;
+    } else {
+      inputImagen.classList.add("is-invalid");
+      inputImagen.classList.remove("is-valid");
+      return false;
+    }
+  }
+  
+  function validaciones() {
+    let datosValidos = true;
+    if (!validarCantidadCaracteres(inputNombre, 2, 50)) {
+      datosValidos = false;
+    }
+  
+    if (!validarCantidadCaracteres(inputGenero, 2, 50)) {
+      datosValidos = false;
+    }
+  
+    if (!validarCantidadCaracteres(inputFormato, 2, 30)) {
+      datosValidos = false;
+    }
+  
+    if (!validarDuracion(inputDuracion)) {
+      datosValidos = false;
+    }
+  
+    if (inputImagen.value.trim() !== "") {
+      if (!validarImagen()) {
+        datosValidos = false;
+      }
+    }
+  
+    if (inputDescripcion.value.trim() !== "") {
+      if (!validarCantidadCaracteres(inputDescripcion, 10, 250)) {
+        datosValidos = false;
+      }
+    }
+    return datosValidos;
+  }
+  
+  const modificarTituloyBtnModal = (funcionEditar) => {
+    //cambiar nombre boton modal
+    const btnEditar = document.querySelector("#btnSubmit");
+    const tituloModal = document.querySelector("#modalPeliculaLabel");
+  
+    if (funcionEditar === true) {
+      btnEditar.textContent = "Guardar cambios";
+      tituloModal.textContent = "Editar Película";
+    } else {
+      btnEditar.textContent = "Agregar película";
+      tituloModal.textContent = "Nueva Película";
+    }
+  };
