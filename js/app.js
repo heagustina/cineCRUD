@@ -110,3 +110,57 @@ window.eliminarPelicula = (id) => {
     });
   };
   //FIN
+
+  // UPDATE
+window.prepararPelicula = (id) => {
+    const peliculaBuscada = pelicula.find((pelicula) => pelicula.id === id); //devuelve un objeto si cumple con la condicion, si hay vario devuelve el primero
+  
+    inputNombre.value = peliculaBuscada.nombre;
+    inputGenero.value = peliculaBuscada.genero;
+    inputFormato.value = peliculaBuscada.formato;
+    inputDuracion.value = peliculaBuscada.duracion;
+    inputImagen.value = peliculaBuscada.imagen;
+    inputDescripcion.value = peliculaBuscada.descripcion;
+  
+    //para cambiar nombre a btn
+    funcionEditar = true;
+    modificarTituloyBtnModal(funcionEditar);
+    abrirModal();
+  
+    idPelilulaEditar = id;
+    creandoPelicula = false;
+  };
+  
+  const editarPelicula = () => {
+    if (validaciones()) {
+      const posicionPelicula = pelicula.findIndex(
+        (pelicula) => pelicula.id === idPelilulaEditar
+      );
+      pelicula[posicionPelicula].nombre = inputNombre.value;
+      pelicula[posicionPelicula].genero = inputGenero.value;
+      pelicula[posicionPelicula].formato = inputFormato.value;
+      pelicula[posicionPelicula].duracion = inputDuracion.value;
+      pelicula[posicionPelicula].imagen = inputImagen.value;
+      pelicula[posicionPelicula].descripcion = inputDescripcion.value;
+  
+      guardarLocalStorage();
+      limpiarFormulario();
+  
+      modalPelicula.hide();
+      // actualizar tabla
+      const filaEditada = tablaPeliculas.children[posicionPelicula];
+      if (filaEditada) {
+        filaEditada.children[1].textContent = pelicula[posicionPelicula].nombre;
+        filaEditada.children[2].textContent = pelicula[posicionPelicula].genero;
+        filaEditada.children[3].textContent = pelicula[posicionPelicula].formato;
+        filaEditada.children[4].textContent = pelicula[posicionPelicula].duracion;
+      }
+  
+      Swal.fire({
+        title: "Pelicula modificada",
+        text: `La pelicula ${pelicula[posicionPelicula].nombre} fue modificada correctamente`,
+        icon: "success",
+      });
+    }
+  };
+  //FIN
