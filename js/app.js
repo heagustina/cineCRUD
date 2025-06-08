@@ -48,3 +48,31 @@ const guardarLocalStorage = () => {
   localStorage.setItem("peliculaKey", JSON.stringify(pelicula));
 };
 //FIN 
+
+//READ,
+const cargarDatosTabla = () => {
+    if (pelicula.length != 0) {
+    }
+  
+    pelicula.map((pelicula, indice) => {
+      dibujarFila(pelicula, indice + 1);
+    });
+  };
+  
+  const dibujarFila = (pelicula, indice) => {
+    tablaPeliculas.innerHTML += `
+     <tr>
+          <th scope="row">${indice}</th>
+          <td>${pelicula.nombre}</td>
+          <td>${pelicula.genero}</td>
+          <td>${pelicula.duracion}</td>
+          <td>
+            <button class="btn btn-warning mb-1" onclick="prepararPelicula('${pelicula.id}')">Editar</button>
+              <button class="btn btn-danger mb-1" onclick="eliminarPelicula('${pelicula.id}')">Borrar</button>
+            <button class="btn btn-info mb-1"  onclick="verPelicula('${pelicula.id}')">Ver</button>
+            </td>
+        </tr>
+    `;
+  };
+  //FIN
+  
