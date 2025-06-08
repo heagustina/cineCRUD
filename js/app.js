@@ -77,4 +77,36 @@ const cargarDatosTabla = () => {
     `;
   };
   //FIN
+
+  //DELETE
+window.eliminarPelicula = (id) => {
+    Swal.fire({
+      title: "Estas por eliminar un contacto",
+      text: "si decides eliminar, no puedes revertir este paso",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#57cc99",
+      cancelButtonColor: "#d00000",
+      confirmButtonText: "Borrar",
+      cancelButtonText: "Salir",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const posicionPeliculaBuscada = pelicula.findIndex(
+          (pelicula) => pelicula.id === id
+        );
+        pelicula.splice(posicionPeliculaBuscada, 1);
   
+        guardarLocalStorage();
+        //actualizar tabla
+        tablaPeliculas.children[posicionPeliculaBuscada].remove();
+        const filasRestantes = tablaPeliculas.children;
+        for (let i = 0; i < filasRestantes.length; i++) {
+          const celdaIndice = filasRestantes[i].querySelector("th");
+          if (celdaIndice) {
+            celdaIndice.textContent = i + 1; // Actualiza el texto con el nuevo índice
+          }
+        }
+      }
+    });
+  };
+  //FIN
