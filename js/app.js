@@ -47,20 +47,20 @@ const limpiarFormulario = () => {
 const guardarLocalStorage = () => {
   localStorage.setItem("peliculaKey", JSON.stringify(pelicula));
 };
-//FIN 
+//FIN
 
 //READ,
 const cargarDatosTabla = () => {
-    if (pelicula.length != 0) {
-    }
-  
-    pelicula.map((pelicula, indice) => {
-      dibujarFila(pelicula, indice + 1);
-    });
-  };
-  
-  const dibujarFila = (pelicula, indice) => {
-    tablaPeliculas.innerHTML += `
+  if (pelicula.length != 0) {
+  }
+
+  pelicula.map((pelicula, indice) => {
+    dibujarFila(pelicula, indice + 1);
+  });
+};
+
+const dibujarFila = (pelicula, indice) => {
+  tablaPeliculas.innerHTML += `
      <tr>
           <th scope="row">${indice}</th>
           <td>${pelicula.nombre}</td>
@@ -73,222 +73,217 @@ const cargarDatosTabla = () => {
             </td>
         </tr>
     `;
-  };
-  //FIN
+};
+//FIN
 
-  //DELETE
+//DELETE
 window.eliminarPelicula = (id) => {
-    Swal.fire({
-      title: "Estas por eliminar un contacto",
-      text: "si decides eliminar, no puedes revertir este paso",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#57cc99",
-      cancelButtonColor: "#d00000",
-      confirmButtonText: "Borrar",
-      cancelButtonText: "Salir",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const posicionPeliculaBuscada = pelicula.findIndex(
-          (pelicula) => pelicula.id === id
-        );
-        pelicula.splice(posicionPeliculaBuscada, 1);
-  
-        guardarLocalStorage();
-        //actualizar tabla
-        tablaPeliculas.children[posicionPeliculaBuscada].remove();
-        const filasRestantes = tablaPeliculas.children;
-        for (let i = 0; i < filasRestantes.length; i++) {
-          const celdaIndice = filasRestantes[i].querySelector("th");
-          if (celdaIndice) {
-            celdaIndice.textContent = i + 1; // Actualiza el texto con el nuevo índice
-          }
+  Swal.fire({
+    title: "Estas por eliminar un contacto",
+    text: "si decides eliminar, no puedes revertir este paso",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#57cc99",
+    cancelButtonColor: "#d00000",
+    confirmButtonText: "Borrar",
+    cancelButtonText: "Salir",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const posicionPeliculaBuscada = pelicula.findIndex(
+        (pelicula) => pelicula.id === id
+      );
+      pelicula.splice(posicionPeliculaBuscada, 1);
+
+      guardarLocalStorage();
+      //actualizar tabla
+      tablaPeliculas.children[posicionPeliculaBuscada].remove();
+      const filasRestantes = tablaPeliculas.children;
+      for (let i = 0; i < filasRestantes.length; i++) {
+        const celdaIndice = filasRestantes[i].querySelector("th");
+        if (celdaIndice) {
+          celdaIndice.textContent = i + 1; // Actualiza el texto con el nuevo índice
         }
       }
-    });
-  };
-  //FIN
-
-  // UPDATE
-window.prepararPelicula = (id) => {
-    const peliculaBuscada = pelicula.find((pelicula) => pelicula.id === id); //devuelve un objeto si cumple con la condicion, si hay vario devuelve el primero
-  
-    inputNombre.value = peliculaBuscada.nombre;
-    inputGenero.value = peliculaBuscada.genero;
-    inputDuracion.value = peliculaBuscada.duracion;
-    inputImagen.value = peliculaBuscada.imagen;
-    inputDescripcion.value = peliculaBuscada.descripcion;
-  
-    //para cambiar nombre a btn
-    funcionEditar = true;
-    modificarTituloyBtnModal(funcionEditar);
-    abrirModal();
-  
-    idPelilulaEditar = id;
-    creandoPelicula = false;
-  };
-  
-  const editarPelicula = () => {
-    if (validaciones()) {
-      const posicionPelicula = pelicula.findIndex(
-        (pelicula) => pelicula.id === idPelilulaEditar
-      );
-      pelicula[posicionPelicula].nombre = inputNombre.value;
-      pelicula[posicionPelicula].genero = inputGenero.value;
-      pelicula[posicionPelicula].duracion = inputDuracion.value;
-      pelicula[posicionPelicula].imagen = inputImagen.value;
-      pelicula[posicionPelicula].descripcion = inputDescripcion.value;
-  
-      guardarLocalStorage();
-      limpiarFormulario();
-  
-      modalPelicula.hide();
-      // actualizar tabla
-      const filaEditada = tablaPeliculas.children[posicionPelicula];
-      if (filaEditada) {
-        filaEditada.children[1].textContent = pelicula[posicionPelicula].nombre;
-        filaEditada.children[2].textContent = pelicula[posicionPelicula].genero;
-        filaEditada.children[3].textContent = pelicula[posicionPelicula].duracion;
-      }
-  
-      Swal.fire({
-        title: "Pelicula modificada",
-        text: `La pelicula ${pelicula[posicionPelicula].nombre} fue modificada correctamente`,
-        icon: "success",
-      });
     }
-  };
-  //FIN
+  });
+};
+//FIN
+
+// UPDATE
+window.prepararPelicula = (id) => {
+  const peliculaBuscada = pelicula.find((pelicula) => pelicula.id === id); //devuelve un objeto si cumple con la condicion, si hay vario devuelve el primero
+
+  inputNombre.value = peliculaBuscada.nombre;
+  inputGenero.value = peliculaBuscada.genero;
+  inputDuracion.value = peliculaBuscada.duracion;
+  inputImagen.value = peliculaBuscada.imagen;
+  inputDescripcion.value = peliculaBuscada.descripcion;
+
+  //para cambiar nombre a btn
+  funcionEditar = true;
+  modificarTituloyBtnModal(funcionEditar);
+  abrirModal();
+
+  idPelilulaEditar = id;
+  creandoPelicula = false;
+};
+
+const editarPelicula = () => {
+  if (validaciones()) {
+    const posicionPelicula = pelicula.findIndex(
+      (pelicula) => pelicula.id === idPelilulaEditar
+    );
+    pelicula[posicionPelicula].nombre = inputNombre.value;
+    pelicula[posicionPelicula].genero = inputGenero.value;
+    pelicula[posicionPelicula].duracion = inputDuracion.value;
+    pelicula[posicionPelicula].imagen = inputImagen.value;
+    pelicula[posicionPelicula].descripcion = inputDescripcion.value;
+
+    guardarLocalStorage();
+    limpiarFormulario();
+
+    modalPelicula.hide();
+    // actualizar tabla
+    const filaEditada = tablaPeliculas.children[posicionPelicula];
+    if (filaEditada) {
+      filaEditada.children[1].textContent = pelicula[posicionPelicula].nombre;
+      filaEditada.children[2].textContent = pelicula[posicionPelicula].genero;
+      filaEditada.children[3].textContent = pelicula[posicionPelicula].duracion;
+    }
+
+    Swal.fire({
+      title: "Pelicula modificada",
+      text: `La pelicula ${pelicula[posicionPelicula].nombre} fue modificada correctamente`,
+      icon: "success",
+    });
+  }
+};
+//FIN
 
 //VER PELICULA
 window.verPelicula = (id) => {
-    console.log(window.location);
-    window.location.href = "./pages/detallePelicula.html?cod=" + id;
-  };
-  //FIN 
+  console.log(window.location);
+  window.location.href = "./pages/detallePelicula.html?cod=" + id;
+};
+//FIN
 
-  // funciones de validacion
+// funciones de validacion
 function validarCantidadCaracteres(input, min, max) {
-    if (input.value.trim().length >= min && input.value.trim().length <= max) {
-      input.classList.add("is-valid");
-      input.classList.remove("is-invalid");
-      return true;
-    } else {
-      input.classList.add("is-invalid");
-      input.classList.remove("is-valid");
-      return false;
-    }
+  if (input.value.trim().length >= min && input.value.trim().length <= max) {
+    input.classList.add("is-valid");
+    input.classList.remove("is-invalid");
+    return true;
+  } else {
+    input.classList.add("is-invalid");
+    input.classList.remove("is-valid");
+    return false;
   }
-  
-  function validarDuracion(input) {
-    const duracion = parseInt(input.value.trim());
-    if (!isNaN(duracion) && duracion >= 10 && duracion <= 500) {
-      input.classList.add("is-valid");
-      input.classList.remove("is-invalid");
-      return true;
-    } else {
-      input.classList.add("is-invalid");
-      input.classList.remove("is-valid");
-      return false;
-    }
-  }
-  
-  function validarImagen() {
-    const regExp = /^https?:\/\/.*\.(jpg|jpeg|png)$/i;
-    if (regExp.test(inputImagen.value.trim())) {
-      inputImagen.classList.add("is-valid");
-      inputImagen.classList.remove("is-invalid");
-      return true;
-    } else {
-      inputImagen.classList.add("is-invalid");
-      inputImagen.classList.remove("is-valid");
-      return false;
-    }
-  }
-  
-  function validaciones() {
-    let datosValidos = true;
-    if (!validarCantidadCaracteres(inputNombre, 2, 50)) {
-      datosValidos = false;
-    }
-  
-    if (!validarCantidadCaracteres(inputGenero, 2, 50)) {
-      datosValidos = false;
-    }
-  
-    if (!validarCantidadCaracteres(inputFormato, 2, 30)) {
-      datosValidos = false;
-    }
-  
-    if (!validarDuracion(inputDuracion)) {
-      datosValidos = false;
-    }
-  
-    if (inputImagen.value.trim() !== "") {
-      if (!validarImagen()) {
-        datosValidos = false;
-      }
-    }
-  
-    if (inputDescripcion.value.trim() !== "") {
-      if (!validarCantidadCaracteres(inputDescripcion, 10, 250)) {
-        datosValidos = false;
-      }
-    }
-    return datosValidos;
-  }
-  
-  const modificarTituloyBtnModal = (funcionEditar) => {
-    //cambiar nombre boton modal
-    const btnEditar = document.querySelector("#btnSubmit");
-    const tituloModal = document.querySelector("#modalPeliculaLabel");
-  
-    if (funcionEditar === true) {
-      btnEditar.textContent = "Guardar cambios";
-      tituloModal.textContent = "Editar Película";
-    } else {
-      btnEditar.textContent = "Agregar película";
-      tituloModal.textContent = "Nueva Película";
-    }
-  };
+}
 
-  //VARIABLES
-const modalPelicula = new bootstrap.Modal(
-    document.getElementById("modalPelicula")
-  );
-  const btnAgregar = document.getElementById("btnAgregar");
-  const formularioPelicula = document.querySelector("form"); //traigo el formulario del boton
-  const inputNombre = document.querySelector("#nombre");
-  const inputGenero = document.querySelector("#genero");
-  const inputDuracion = document.querySelector("#duracion");
-  const inputImagen = document.querySelector("#imagen");
-  const inputDescripcion = document.querySelector("#descripcion");
-  const tablaPeliculas = document.querySelector("tbody");
-  
-  let idPelilulaEditar = null; //se guarda el id cuando hace clic en editar
-  let creandoPelicula = true; // cuando carga es V y cuando edita es F
-  let funcionEditar = null;
-  
-  const pelicula = JSON.parse(localStorage.getItem("peliculaKey")) || [];
-  
-  //MANEJADORES
-  btnAgregar.addEventListener("click", () => {
-    creandoPelicula = true;
-    funcionEditar = false;
-    limpiarFormulario();
-    modificarTituloyBtnModal(funcionEditar);
-    abrirModal();
-  });
-  
-  formularioPelicula.addEventListener("submit", (e) => {
-    e.preventDefault();
-    if (creandoPelicula) {
-      crearPelicula();
-    } else {
-      editarPelicula();
+function validarDuracion(input) {
+  const duracion = parseInt(input.value.trim());
+  if (!isNaN(duracion) && duracion >= 10 && duracion <= 500) {
+    input.classList.add("is-valid");
+    input.classList.remove("is-invalid");
+    return true;
+  } else {
+    input.classList.add("is-invalid");
+    input.classList.remove("is-valid");
+    return false;
+  }
+}
+
+function validarImagen() {
+  const regExp = /^https?:\/\/.*\.(jpg|jpeg|png)$/i;
+  if (regExp.test(inputImagen.value.trim())) {
+    inputImagen.classList.add("is-valid");
+    inputImagen.classList.remove("is-invalid");
+    return true;
+  } else {
+    inputImagen.classList.add("is-invalid");
+    inputImagen.classList.remove("is-valid");
+    return false;
+  }
+}
+
+function validaciones() {
+  let datosValidos = true;
+  if (!validarCantidadCaracteres(inputNombre, 2, 50)) {
+    datosValidos = false;
+  }
+
+  if (!validarCantidadCaracteres(inputGenero, 2, 50)) {
+    datosValidos = false;
+  }
+
+  if (!validarDuracion(inputDuracion)) {
+    datosValidos = false;
+  }
+
+  if (inputImagen.value.trim() !== "") {
+    if (!validarImagen()) {
+      datosValidos = false;
     }
-  });
-  
-  //resto de la logica
-  cargarDatosTabla();
-  
+  }
+
+  if (inputDescripcion.value.trim() !== "") {
+    if (!validarCantidadCaracteres(inputDescripcion, 10, 250)) {
+      datosValidos = false;
+    }
+  }
+  return datosValidos;
+}
+
+const modificarTituloyBtnModal = (funcionEditar) => {
+  //cambiar nombre boton modal
+  const btnEditar = document.querySelector("#btnSubmit");
+  const tituloModal = document.querySelector("#modalPeliculaLabel");
+
+  if (funcionEditar === true) {
+    btnEditar.textContent = "Guardar cambios";
+    tituloModal.textContent = "Editar Película";
+  } else {
+    btnEditar.textContent = "Agregar película";
+    tituloModal.textContent = "Nueva Película";
+  }
+};
+
+//VARIABLES
+const modalPelicula = new bootstrap.Modal(
+  document.getElementById("modalPelicula")
+);
+const btnAgregar = document.getElementById("btnAgregar");
+const formularioPelicula = document.querySelector("form"); //traigo el formulario del boton
+const inputNombre = document.querySelector("#nombre");
+const inputGenero = document.querySelector("#genero");
+const inputDuracion = document.querySelector("#duracion");
+const inputImagen = document.querySelector("#imagen");
+const inputDescripcion = document.querySelector("#descripcion");
+const tablaPeliculas = document.querySelector("tbody");
+
+let idPelilulaEditar = null; //se guarda el id cuando hace clic en editar
+let creandoPelicula = true; // cuando carga es V y cuando edita es F
+let funcionEditar = null;
+
+const pelicula = JSON.parse(localStorage.getItem("peliculaKey")) || [];
+
+//MANEJADORES
+btnAgregar.addEventListener("click", () => {
+  creandoPelicula = true;
+  funcionEditar = false;
+  limpiarFormulario();
+  modificarTituloyBtnModal(funcionEditar);
+  abrirModal();
+});
+
+formularioPelicula.addEventListener("submit", (e) => {
+  e.preventDefault();
+  if (creandoPelicula) {
+    crearPelicula();
+  } else {
+    editarPelicula();
+  }
+});
+
+//resto de la logica
+cargarDatosTabla();
