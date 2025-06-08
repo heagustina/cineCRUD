@@ -116,7 +116,6 @@ window.prepararPelicula = (id) => {
   
     inputNombre.value = peliculaBuscada.nombre;
     inputGenero.value = peliculaBuscada.genero;
-    inputFormato.value = peliculaBuscada.formato;
     inputDuracion.value = peliculaBuscada.duracion;
     inputImagen.value = peliculaBuscada.imagen;
     inputDescripcion.value = peliculaBuscada.descripcion;
@@ -137,7 +136,6 @@ window.prepararPelicula = (id) => {
       );
       pelicula[posicionPelicula].nombre = inputNombre.value;
       pelicula[posicionPelicula].genero = inputGenero.value;
-      pelicula[posicionPelicula].formato = inputFormato.value;
       pelicula[posicionPelicula].duracion = inputDuracion.value;
       pelicula[posicionPelicula].imagen = inputImagen.value;
       pelicula[posicionPelicula].descripcion = inputDescripcion.value;
@@ -151,8 +149,7 @@ window.prepararPelicula = (id) => {
       if (filaEditada) {
         filaEditada.children[1].textContent = pelicula[posicionPelicula].nombre;
         filaEditada.children[2].textContent = pelicula[posicionPelicula].genero;
-        filaEditada.children[3].textContent = pelicula[posicionPelicula].formato;
-        filaEditada.children[4].textContent = pelicula[posicionPelicula].duracion;
+        filaEditada.children[3].textContent = pelicula[posicionPelicula].duracion;
       }
   
       Swal.fire({
