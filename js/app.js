@@ -66,7 +66,6 @@ const cargarDatosTabla = () => {
           <th scope="row">${indice}</th>
           <td>${pelicula.nombre}</td>
           <td>${pelicula.genero}</td>
-          <td>${pelicula.formato}</td>
           <td>${pelicula.duracion}</td>
           <td>
             <button class="btn btn-warning mb-1" onclick="prepararPelicula('${pelicula.id}')">Editar</button>
