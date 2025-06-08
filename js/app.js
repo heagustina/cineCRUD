@@ -13,7 +13,6 @@ const crearPelicula = () => {
     const peliculaNueva = new Peliculas(
       inputNombre.value,
       inputGenero.value,
-      inputFormato.value,
       inputDuracion.value,
       inputImagen.value,
       inputDescripcion.value
